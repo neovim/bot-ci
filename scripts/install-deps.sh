@@ -1,6 +1,4 @@
-#!/bin/bash -e
-
-# Install necessary dependencies for scripts/publish-docs.sh
+# Install necessary dependencies for rebuild-docs.sh
 # on Travis CI.
 #
 # Required environment variables:
@@ -13,17 +11,17 @@ install_deps() {
   local neovim_deps_branch=master
   local neovim_deps_dir=/opt/neovim-deps
 
-  local bin_dir=${TRAVIS_BUILD_DIR}/deps/bin
+  local bin_dir="${TRAVIS_BUILD_DIR}/deps/bin"
 
   mkdir -p ${bin_dir}
-  cd ${TRAVIS_BUILD_DIR}/deps
+  cd "${TRAVIS_BUILD_DIR}/deps"
 
   # Install doxygen
   echo "Installing Doxygen ${doxygen_version}..."
   mkdir -p doxygen
   wget -q -O - http://ftp.stack.nl/pub/users/dimitri/doxygen-${doxygen_version}.linux.bin.tar.gz \
     | tar xzf - --strip-components=1 -C doxygen
-  ln -fs ${PWD}/doxygen/bin/doxygen ${bin_dir}
+  ln -fs "${PWD}/doxygen/bin/doxygen" ${bin_dir}
 
   # Install scan-build from PPA
   echo "Installing Clang ${clang_version}..."
