@@ -34,7 +34,7 @@ generate_report() {
 }
 
 # Install dependencies
-source ${BUILD_DIR}/scripts/install-deps.sh
+source ${BUILD_DIR}/scripts/install-travis-dependencies.sh
 if [[ ${LOCAL_BUILD} != true ]]; then
   install_deps
 else

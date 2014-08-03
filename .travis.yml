@@ -1,5 +1,5 @@
 language: c
-compiler: clang
+compiler: gcc
 env:
   global:
     - GIT_NAME="marvim"
@@ -15,6 +15,6 @@ env:
   matrix:
     - TRAVIS_BUILD_TYPE=coverity
     - TRAVIS_BUILD_TYPE=rebuild-docs
-
+    - TRAVIS_BUILD_TYPE=rebuild-deps
 script:
   - ./travis.sh
