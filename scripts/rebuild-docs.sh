@@ -1,26 +1,21 @@
 #!/bin/bash -e
 
 # Build documentation & reports for Neovim and
-# pushes generated HTML to a "doc" Git repository.
+# push generated HTML to a "doc" Git repository.
 # This script is based on http://philipuren.com/serendipity/index.php?/archives/21-Using-Travis-to-automatically-publish-documentation.html
+#
+# Required environment variables:
+# ${MAKE_CMD}
+# ${BUILD_DIR}
+# ${NEOVIM_REPO}
+# ${NEOVIM_BRANCH}
+# ${NEOVIM_DIR}
 
-if [[ -z "${TRAVIS_BUILD_DIR}" ]]; then
-  LOCAL_BUILD=true
-  BUILD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"/.. && pwd)"
-else
-  LOCAL_BUILD=false
-  BUILD_DIR=${TRAVIS_BUILD_DIR}
-fi
-
-NEOVIM_DIR=${BUILD_DIR}/build/neovim
-NEOVIM_REPO=neovim/neovim
-NEOVIM_BRANCH=master
+DOC_REPO=${DOC_REPO:-neovim/doc}
+DOC_BRANCH=${DOC_BRANCH:-gh-pages}
 DOC_DIR=${BUILD_DIR}/build/doc
-DOC_REPO=neovim/doc
-DOC_BRANCH=gh-pages
 INDEX_PAGE_URL=http://neovim.org/doc_index
-MAKE_CMD="make -j2"
-REPORTS=(doxygen clang-report translation-report)
+REPORTS=(${REPORTS:-"doxygen clang-report translation-report"})
 
 # Helper function for report generation
 # ${1}:   Report title
@@ -39,16 +34,16 @@ generate_report() {
 }
 
 # Install dependencies
-source ${BUILD_DIR}/scripts/install-deps.sh
-if [[ ${LOCAL_BUILD} == false ]]; then
+source ${BUILD_DIR}/scripts/install-travis-dependencies.sh
+if [[ ${LOCAL_BUILD} != true ]]; then
   install_deps
 else
   echo "Local build, not installing dependencies."
 fi
 
-# Clone code & doc repos
-git clone --branch ${NEOVIM_BRANCH} --depth 1 git://github.com/${NEOVIM_REPO} ${NEOVIM_DIR}
-git clone --branch ${DOC_BRANCH} --depth 1 git://github.com/${DOC_REPO} ${DOC_DIR}
+# Clone doc repo
+# Skip if directory already present for local builds
+[[ ${LOCAL_BUILD} != true || ! -d ${DOC_DIR} ]] && git clone --branch ${DOC_BRANCH} --depth 1 git://github.com/${DOC_REPO} ${DOC_DIR}
 NEOVIM_COMMIT=$(git --git-dir=${NEOVIM_DIR}/.git rev-parse HEAD)
 
 # Generate documentation & reports
@@ -68,10 +63,6 @@ if [[ ${LOCAL_BUILD} == true ]]; then
   echo "Local build, exiting early..."
   exit 1
 fi
-
-# Set up Git credentials
-git config --global user.name "${GIT_NAME}"
-git config --global user.email ${GIT_EMAIL}
 
 # Commit the updated docs
 cd ${DOC_DIR}
