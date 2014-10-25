@@ -4,6 +4,7 @@ BUILD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${BUILD_DIR}/ci/common/common.sh
 source ${BUILD_DIR}/ci/common/dependencies.sh
 source ${BUILD_DIR}/ci/common/github-api.sh
+source ${BUILD_DIR}/ci/common/travis-api.sh
 source ${BUILD_DIR}/ci/common/neovim.sh
 
 NIGHTLY_DIR=${NIGHTLY_DIR:-${BUILD_DIR}/build/nightly}
@@ -87,6 +88,8 @@ upload_nightly() {
 }
 
 has_current_nightly() {
+  require_environment_variable BUILD_DIR "${BASH_SOURCE[0]}" ${NEOVIM_COMMIT}
+
   local nightly_commit
   read nightly_commit < <( \
     send_gh_api_request repos/${NEOVIM_REPO}/tags \
@@ -101,13 +104,57 @@ has_current_nightly() {
   echo "${NIGHTLY_TAG} tag already points to ${NEOVIM_COMMIT}, exiting."
 }
 
+# Retrieve the commit hash of the latest successful Travis build and
+# assign it to NEOVIM_COMMIT.
+get_successful_commit() {
+  local retries=2
+  local i=0
+  local after_number
+
+  while [[ ${i} -lt ${retries} ]]; do
+    read NEOVIM_COMMIT < <( \
+      send_travis_api_request repos/${NEOVIM_REPO}/builds?event_type=push${after_number} \
+      | jq -r -c "[.builds[] as \$build | .commits[] as \$commit | { build: \$build, commit: \$commit }] | map(select(.commit.id == .build.commit_id and .build.state == \"passed\" and .commit.branch == \"${NEOVIM_BRANCH}\")) | sort_by(.build.finished_at) | reverse | .[0].commit.sha")
+
+    if [[ -n "${NEOVIM_COMMIT}" && "${NEOVIM_COMMIT}" != null ]]; then
+      break
+    fi
+
+    # Did not find a successful build.
+    # Try again, looking at earlier builds.
+    local oldest_build_number
+    read oldest_build_number < <( \
+      send_travis_api_request repos/${NEOVIM_REPO}/builds?event_type=push${after_number} \
+      | jq -r -c '.builds | reverse | .[0].number')
+
+    # If we're at the first build, it doesn't make sense
+    # to continue.
+    if [[ ${oldest_build_number} -eq 1 ]]; then
+      break
+    fi
+
+    after_number="&after_number=${oldest_build_number}"
+    i=$((${i} + 1))
+  done
+
+  if [[ -n "${NEOVIM_COMMIT}" && "${NEOVIM_COMMIT}" != null ]]; then
+    echo "Using commit ${NEOVIM_COMMIT} from latest successful Travis build on ${NEOVIM_REPO}:${NEOVIM_BRANCH}."
+  else
+    >&2 echo "Could not find a successful Travis build on ${NEOVIM_REPO}:${NEOVIM_BRANCH}"
+    >&2 echo "If such a build exists, it's too far in the past."
+    return 1
+  fi
+}
+
+
 is_ci_build && {
   install_jq
 }
 
-clone_neovim
+get_successful_commit
 
 has_current_nightly || {
+  clone_neovim
   build_nightly
   create_nightly_tarball
   upload_nightly
