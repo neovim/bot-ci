@@ -16,8 +16,8 @@ build_nightly() {(
   mkdir -p ${NIGHTLY_DIR}
 
   cd ${NEOVIM_DIR}
-  make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH="
-  make DESTDIR="${NIGHTLY_DIR}/neovim-linux64" install
+  make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=/neovim-linux64"
+  make DESTDIR="${NIGHTLY_DIR}" install
 )}
 
 create_nightly_tarball() {(
