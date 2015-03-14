@@ -27,6 +27,8 @@ matrix:
     - os: osx
       env: CI_TARGET=deps64
       compiler: gcc-4.9
+    - os: osx
+      env: CI_TARGET=homebrew-resources
   allow_failures:
     - env: CI_TARGET=coverity
 install:
