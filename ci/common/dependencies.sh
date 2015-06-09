@@ -3,7 +3,7 @@
 require_environment_variable BUILD_DIR "${BASH_SOURCE[0]}" ${LINENO}
 
 DOXYGEN_VERSION=${DOXYGEN_VERSION:-1.8.7}
-CLANG_VERSION=${CLANG_VERSION:-3.5}
+CLANG_VERSION=${CLANG_VERSION:-3.6}
 
 # Define directories where dependencies are installed to
 DEPS_INSTALL_DIR=${DEPS_INSTALL_DIR:-${BUILD_DIR}/build/.deps}
