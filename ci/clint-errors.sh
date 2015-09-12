@@ -33,8 +33,8 @@ download_clint_badge() {
   local errors_number="$(cat "$ERRORS_FILE" | wc -l)"
   local code_quality_color="$(get_code_quality_color ${errors_number})"
   local badge="clint-${errors_number}-${code_quality_color}"
-  wget http://img.shields.io/badge/${badge}.svg \
-    -O ${DOC_DIR}/$DOC_SUBTREE/badge.svg
+  curl --tlsv1.2 https://img.shields.io/badge/${badge}.svg \
+    > ${DOC_DIR}/$DOC_SUBTREE/badge.svg
 }
 
 # Helper function to get the code quality color based on number of clint errors
