@@ -12,10 +12,11 @@ generate_doc_index() {
   curl --tlsv1 q ${DOC_INDEX_PAGE_URL} > ${DOC_DIR}/index.html
 }
 
+DOC_SUBTREE="/index.html"
+clone_doc
+
 curl --tlsv1 q ${DOC_INDEX_PAGE_URL} > ${DOC_DIR}/index.html
 echo XXXXXXXXXXXXXXXXXXXXX
 
-DOC_SUBTREE="/index.html"
-clone_doc
 generate_doc_index
 commit_doc
