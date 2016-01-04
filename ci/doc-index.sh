@@ -9,14 +9,13 @@ DOC_INDEX_PAGE_URL=${DOC_INDEX_PAGE_URL:-https://neovim.io/doc_index}
 
 generate_doc_index() {
   echo "Updating index.html from ${DOC_INDEX_PAGE_URL}."
-  curl --tlsv1 q ${DOC_INDEX_PAGE_URL} > ${DOC_DIR}/index.html
+  curl --tlsv1 ${DOC_INDEX_PAGE_URL} > ${DOC_DIR}/index.html
 }
 
 DOC_SUBTREE="/index.html"
 clone_doc
 
-curl --tlsv1 q ${DOC_INDEX_PAGE_URL} > ${DOC_DIR}/index.html
-echo XXXXXXXXXXXXXXXXXXXXX
+curl --tlsv1 ${DOC_INDEX_PAGE_URL}
 
 generate_doc_index
 commit_doc
