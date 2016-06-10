@@ -23,6 +23,7 @@ generate_user_docu() {
   rm -rf ${DOC_DIR}/user
   mkdir -p ${DOC_DIR}/user
   echo "XXXXXXXXX $PWD"
+  ls
   cp *.html ${DOC_DIR}/user
 
   # Modify HTML to match Neovim's layout
