@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 set -o pipefail
+#TODO: temp
+set -o xtrace
 
 shopt -s globstar
 

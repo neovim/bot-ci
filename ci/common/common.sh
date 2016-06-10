@@ -60,7 +60,7 @@ clone_subtree() {(
 
   [ -d "${!dir}/.git" ] || git init "${!dir}"
   cd "${!dir}" 
-  git rev-parse HEAD >/dev/null && git reset --hard HEAD
+  git rev-parse HEAD >/dev/null 2>&1 && git reset --hard HEAD
 
   is_ci_build "Git subtree" && {
     git config core.sparsecheckout true
