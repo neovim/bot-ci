@@ -17,12 +17,14 @@ generate_user_docu() {
 
   # Build user manual HTML
   cd build
+  echo "XXXXXXXXX $PWD"
   ${MAKE_CMD} -v doc_html
+  echo "XXXXXXXX2 $PWD"
 
   # Copy to doc repository
   rm -rf ${DOC_DIR}/user
   mkdir -p ${DOC_DIR}/user
-  echo "XXXXXXXXX $PWD"
+  echo "XXXXXXXX3 $PWD"
   ls runtime/
   ls runtime/doc
   cd runtime/doc
