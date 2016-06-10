@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 set -e
-#TODO: temp
-set -o xtrace
 
 BUILD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${BUILD_DIR}/ci/common/common.sh
@@ -24,7 +22,8 @@ generate_user_docu() {
   # Copy to doc repository
   rm -rf ${DOC_DIR}/user
   mkdir -p ${DOC_DIR}/user
-  cp runtime/doc/*.html ${DOC_DIR}/user
+  echo "XXXXXXXXX $PWD"
+  cp *.html ${DOC_DIR}/user
 
   # Modify HTML to match Neovim's layout
   modify_user_docu

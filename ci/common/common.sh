@@ -67,7 +67,7 @@ clone_subtree() {(
     echo "${!subtree}" > .git/info/sparse-checkout
   }
   git checkout -B ${!branch}
-  git pull --depth 1 --force git://github.com/${!repo} ${!branch}
+  git pull --rebase --force git://github.com/${!repo} ${!branch}
 )}
 
 # Prompt the user to press a key to continue for local builds.
