@@ -17,17 +17,14 @@ generate_user_docu() {
 
   # Build user manual HTML
   cd build
-  echo "XXXXXXXXX $PWD"
-  ${MAKE_CMD} -v doc_html
-  echo "XXXXXXXX2 $PWD"
+  echo "XXXXX: '$PWD'"
+  echo "XXXXX: '${MAKE_CMD} doc_html'"
+  ${MAKE_CMD} doc_html
 
   # Copy to doc repository
-  rm -rf ${DOC_DIR}/user
-  mkdir -p ${DOC_DIR}/user
-  echo "XXXXXXXX3 $PWD"
-  ls runtime/
-  ls runtime/doc
-  cd runtime/doc
+  echo "XXXXX: '${DOC_DIR}/user/*'"
+  cat Makefile
+  rm -rf ${DOC_DIR}/user/*
   cp *.html ${DOC_DIR}/user
 
   # Modify HTML to match Neovim's layout
@@ -45,6 +42,7 @@ modify_user_docu() {
 }
 
 DOC_SUBTREE="/user/"
+export NEOVIM_DIR=foo
 clone_doc
 clone_neovim
 generate_user_docu
