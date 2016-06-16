@@ -24,8 +24,9 @@ generate_user_docu() {
   # Copy to doc repository
   echo "XXXXX: '${DOC_DIR}/user/*'"
   cat Makefile
-  rm -rf ${DOC_DIR}/user/*
-  cp *.html ${DOC_DIR}/user
+  rm -rf ${DOC_DIR}/user
+  mkdir -p ${DOC_DIR}/user
+  cp runtime/doc/*.html ${DOC_DIR}/user
 
   # Modify HTML to match Neovim's layout
   modify_user_docu
@@ -42,7 +43,7 @@ modify_user_docu() {
 }
 
 DOC_SUBTREE="/user/"
-export NEOVIM_DIR=foo
+# export NEOVIM_DIR=foo
 clone_doc
 clone_neovim
 generate_user_docu
