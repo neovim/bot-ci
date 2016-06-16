@@ -17,9 +17,13 @@ generate_user_docu() {
 
   # Build user manual HTML
   cd build
-  ${MAKE_CMD} -v doc_html
+  echo "XXXXX: '$PWD'"
+  echo "XXXXX: '${MAKE_CMD} doc_html'"
+  ${MAKE_CMD} doc_html
 
   # Copy to doc repository
+  echo "XXXXX: '${DOC_DIR}/user/*'"
+  cat Makefile
   rm -rf ${DOC_DIR}/user
   mkdir -p ${DOC_DIR}/user
   cp runtime/doc/*.html ${DOC_DIR}/user
@@ -39,6 +43,7 @@ modify_user_docu() {
 }
 
 DOC_SUBTREE="/user/"
+# export NEOVIM_DIR=foo
 clone_doc
 clone_neovim
 generate_user_docu
