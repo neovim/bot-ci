@@ -32,6 +32,8 @@ matrix:
     - os: linux
       env: CI_TARGET=coverity
       compiler: gcc-4.9
+    - os: osx
+      env: CI_TARGET=homebrew-resources
   allow_failures:
     - os: linux
       env: CI_TARGET=coverity

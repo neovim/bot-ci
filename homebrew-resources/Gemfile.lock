@@ -1,0 +1,20 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.3.7)
+    json (1.8.2)
+    mime-types (1.25.1)
+    rdoc (4.2.0)
+    rest-client (1.6.8)
+      mime-types (~> 1.16)
+      rdoc (>= 2.4.2)
+    unirest (1.1.2)
+      addressable (~> 2.3.5)
+      json (~> 1.8.1)
+      rest-client (~> 1.6.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  unirest (~> 1.1.2)
