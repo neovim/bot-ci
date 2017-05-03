@@ -153,6 +153,7 @@ commit_subtree() {(
 
 with_token() {(
   set +x
+  set +o pipefail
   if [[ $1 = --empty-unset ]] ; then
     : ${GH_TOKEN:=}
     shift
@@ -165,6 +166,7 @@ with_token() {(
     arg="${arg//%%/%}"
     printf '%s\0' "$arg"
   done | xargs -0 -x sh -c '"$@"' - >&2 | sed "s/$GH_TOKEN/GH_TOKEN/g"
+  return ${PIPESTATUS[1]}
 )}
 
 has_gh_token() {
