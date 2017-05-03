@@ -112,12 +112,9 @@ commit_subtree() {(
   require_environment_variable ${repo} "${BASH_SOURCE[0]}" ${LINENO}
   require_environment_variable ${branch} "${BASH_SOURCE[0]}" ${LINENO}
 
-  # Remove possible file name from full subtree path and change directory.
-  local subtree_path="${!dir}${!subtree}"
-  subtree_path=${subtree_path%/*}
-  cd ${subtree_path}
+  cd "${!dir}"
 
-  git add --all .
+  git add --all "./${!subtree}"
 
   if is_ci_build --silent ; then
     # Commit on Travis CI.
