@@ -163,7 +163,7 @@ with_token() {(
   for arg ; do
     arg="${arg//%token/$GH_TOKEN}"
     arg="${arg//%%/%}"
-    printf '%s\0' $arg
+    printf '%s\0' "$arg"
   done | xargs -0 -x sh -c '"$@"' - | sed "s/$GH_TOKEN/GH_TOKEN/g"
 )}
 
