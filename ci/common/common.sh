@@ -132,7 +132,7 @@ commit_subtree() {(
           echo "To test pull requests, see instructions in README.md."
           return $(can_fail_without_private)
         fi
-        if with_token git push https://%token@github.com/${!repo} ${!branch}
+        if with_token git push https://%token%@github.com/${!repo} ${!branch}
         then
           echo "Pushed to ${!repo} ${!branch}."
           return 0
@@ -162,13 +162,12 @@ with_token() {(
     : ${GH_TOKEN}
   fi
   for arg ; do
-    arg="${arg//%token/$GH_TOKEN}"
-    arg="${arg//%%/%}"
+    arg="${arg//%token%/$GH_TOKEN}"
     printf '%s\0' "$arg"
   done | xargs -0 -x sh -c '"$@"' - >&2 | sed "s/$GH_TOKEN/GH_TOKEN/g"
   return ${PIPESTATUS[1]}
 )}
 
 has_gh_token() {
-  with_token --empty-unset test -n %token
+  with_token --empty-unset test -n %token%
 }
