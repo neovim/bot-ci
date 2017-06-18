@@ -140,7 +140,7 @@ commit_subtree() {
             echo 'To test pull requests, see instructions in README.md.'
             return "$(can_fail_without_private)"
           fi
-          if with_token git push "https://%token%@github.com/${!repo}" "${!branch}"
+          if git push "ssh://git@github.com/${!repo}" "${!branch}"
           then
             echo "Pushed to ${!repo} ${!branch}."
             return 0
