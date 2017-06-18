@@ -39,6 +39,8 @@ matrix:
 #  allow_failures:
 #    - os: linux
 #      env: CI_TARGET=coverity
+before_install: |
+  openssl aes-256-cbc -K $encrypted_45bd88df5516_key -iv $encrypted_45bd88df5516_iv -in keys/id_rsa.enc -out keys/id_rsa -d
 install:
   - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
       brew install bash;
@@ -46,6 +48,10 @@ install:
       brew install gettext;
       brew reinstall -s libtool;
     fi
+    chmod 0600 keys/id_rsa
+    cp keys/id_rsa ~/.ssh
+    git config --global user.name 'neovim ci bot'
+    git config --global user.email 'justinkz++marvim@gmail.com'
 script:
   - ./ci/${CI_TARGET}.sh
 addons:
