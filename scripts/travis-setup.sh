@@ -23,7 +23,7 @@ _setup_deps() {
   export NVIM_DEPS_PREFIX="${1}/usr"
   echo "\$NVIM_DEPS_PREFIX: \"${NVIM_DEPS_PREFIX}\""
 
-  eval "$(${NVIM_DEPS_PREFIX}/bin/luarocks path)"
+  "$(${NVIM_DEPS_PREFIX}/bin/luarocks path)"
   echo "\$LUA_PATH: \"${LUA_PATH}\""
   echo "\$LUA_CPATH: \"${LUA_CPATH}\""
 

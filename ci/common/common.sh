@@ -7,7 +7,7 @@
 # ${3}: Line number.
 require_environment_variable() {
   local variable_name="${1}"
-  eval "local variable_content=\"\${${variable_name}:-}\""
+  local variable_content="${variable_name:-}"
   # shellcheck disable=2154
   if [[ -z "${variable_content}" ]]; then
     >&2 echo "${variable_name} not set at ${2}:${3}, cannot continue!"
