@@ -146,6 +146,7 @@ commit_subtree() {
             return 0
           fi
         fi
+	# TODO AF: make changes here
         echo "Retry pushing to ${!repo} ${!branch}."
         sleep 1
       done
