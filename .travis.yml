@@ -17,9 +17,6 @@ matrix:
   include:
     - env: CI_TARGET=assign-labels
     - env: CI_TARGET=auto-pullrequest
-      # For nvim.appimage
-      # (until https://github.com/neovim/neovim/issues/7537 is fixed)
-      sudo: true
     - env: CI_TARGET=deps-src
     - env: CI_TARGET=doc-index
     - env: CI_TARGET=doxygen
