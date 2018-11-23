@@ -49,7 +49,6 @@ install:
   - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
       brew install bash;
       brew install jq;
-      brew install libtool;
     fi;
     printf "machine github.com login ${GH_TOKEN:-unknown} password x-oauth-basic\n" >> "$HOME/.netrc";
     printf "machine api.github.com login ${GH_TOKEN:-unknown} password x-oauth-basic\n" >> "$HOME/.netrc";
