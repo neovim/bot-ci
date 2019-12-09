@@ -2,10 +2,10 @@
 set -e
 
 BUILD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source "${BUILD_DIR}"/ci/common/common.sh
-source "${BUILD_DIR}"/ci/common/dependencies.sh
-source "${BUILD_DIR}"/ci/common/github-api.sh
-source "${BUILD_DIR}"/ci/common/neovim.sh
+source "${BUILD_DIR}/ci/common/common.sh"
+source "${BUILD_DIR}/ci/common/dependencies.sh"
+source "${BUILD_DIR}/ci/common/github-api.sh"
+source "${BUILD_DIR}/ci/common/neovim.sh"
 
 TAGS=('[WIP]' '[RFC]' '[RDY]' 'vim-patch')
 LABELS=('WIP' 'RFC' 'RDY' 'vim-patch')
@@ -32,7 +32,6 @@ label_issue() {
 
     # Remove existing mutually-exclusive labels, if any.
     if is_label_exclusive "$new_label"; then
-      local i
       for label in "${LABELS[@]}"; do
         local old_label="${label}"
         if is_label_exclusive "$old_label" \
