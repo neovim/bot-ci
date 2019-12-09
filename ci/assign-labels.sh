@@ -49,7 +49,7 @@ label_issue() {
   fi
 
   if [[ ${DRY_RUN} != true ]]; then
-    send_gh_api_data_request repos/"${NEOVIM_REPO}"/issues/"${issue_id}" \
+    send_gh_api_data_request "repos/${NEOVIM_REPO}/issues/${issue_id}" \
       PATCH \
       "{\"labels\": [${issue_labels}]}" \
       > /dev/null
